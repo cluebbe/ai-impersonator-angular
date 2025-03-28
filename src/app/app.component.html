@@ -2,19 +2,26 @@
   <div>
         
     <div>
+
       <div>
-        <div *ngFor="let message of chatMessages">
-          <strong>{{ message.sender }}:</strong> {{ message.text }}
-        </div>
-      </div>
-      <div>
+        <input
+        type="text"
+        [(ngModel)]="personToImpersonate"
+        placeholder="Type the person to impersonate..."
+      />
         <input
           type="text"
           [(ngModel)]="userInput"
           placeholder="Type your message here..."
           (keyup.enter)="sendMessage()"
+          style="width: 500px;"
         />
         <button (click)="sendMessage()">Send</button>
+      </div>
+      <div>
+        <div *ngFor="let message of chatMessages">
+          <strong>{{ message.sender }}:</strong> {{ message.text }}
+        </div>
       </div>
     </div>
 

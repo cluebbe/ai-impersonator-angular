@@ -14,12 +14,14 @@ import { NgFor } from '@angular/common';
 export class AppComponent {
   title = 'ai-impersonator-angular';
   public userInput: string = '';
+  public personToImpersonate: string = '';
   chatMessages: { sender: string; text: string }[] = [];
 
   constructor(private http: HttpClient) {}
 
   sendMessage() {
     if (this.userInput.trim()) {
+      const userMessagePretext = "Please answer the following question as if you were an actor impersonating " + this.personToImpersonate + " (100 Tokens max): "
       const userMessage = this.userInput.trim();
       this.chatMessages.push({ sender: 'You', text: userMessage });
       this.userInput = '';
@@ -39,7 +41,7 @@ export class AppComponent {
         messages: [
           {
             role: 'user',
-            content: userMessage,
+            content: userMessagePretext + userMessage,
           },
         ],
         temperature: 0.7,
@@ -57,7 +59,7 @@ export class AppComponent {
         .subscribe((response: any) => {
           const assistantMessage = response.choices[0]?.message?.content || 'No response received.';
           console.log(response);
-          this.chatMessages.push({ sender: 'Grok', text: assistantMessage  });
+          this.chatMessages.push({ sender: this.personToImpersonate, text: assistantMessage  });
         });
     }
   }
