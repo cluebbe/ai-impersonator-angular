@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -10,8 +10,9 @@ import { NgFor } from '@angular/common';
   styleUrls: ['./app.component.css'],
   imports: [NgFor, RouterModule, FormsModule],
 })
-@Injectable({ providedIn: 'root' })
+
 export class AppComponent {
+  @ViewChild('chatMessagesContainer') chatMessagesContainer!: ElementRef;
   title = 'ai-impersonator-angular';
   public userInput: string = '';
   public personToImpersonate: string = '';
@@ -27,7 +28,7 @@ export class AppComponent {
       this.userInput = '';
 
       // API key
-      const apiKey = 'your-api-key';
+      const apiKey = 'your-api-key-here'; // Replace with your actual API key
 
       // Set headers
       const headers = new HttpHeaders({
@@ -60,7 +61,12 @@ export class AppComponent {
           const assistantMessage = response.choices[0]?.message?.content || 'No response received.';
           console.log(response);
           this.chatMessages.push({ sender: this.personToImpersonate, text: assistantMessage  });
+          setTimeout(() => {
+            this.chatMessagesContainer.nativeElement.scrollTop = this.chatMessagesContainer.nativeElement.scrollHeight;
+          }, 500);
         });
+      
+
     }
   }
 }

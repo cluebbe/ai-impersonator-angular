@@ -1,34 +1,29 @@
-<main>
-  <div>
-        
-    <div>
-      <h1>Chat with any known person you like</h1>
-      <div>
-        <input
+<main class="chat-container">
+  <div class="chat-box">
+    <h1 class="chat-title">Chat with any known person you like</h1>
+    <div class="input-group">
+      <input
         type="text"
         [(ngModel)]="personToImpersonate"
         placeholder="Type the person to impersonate..."
+        class="input-field"
       />
-        <input
-          type="text"
-          [(ngModel)]="userInput"
-          placeholder="Type your message here..."
-          (keyup.enter)="sendMessage()"
-          style="width: 500px;"
-        />
-        <button (click)="sendMessage()">Send</button>
-      </div>
-      <div>
-        <div *ngFor="let message of chatMessages">
-          <strong>{{ message.sender }}:</strong> {{ message.text }}
-        </div>
+      <input
+        type="text"
+        [(ngModel)]="userInput"
+        placeholder="Type your message here..."
+        (keyup.enter)="sendMessage()"
+        class="input-field large-input"
+      />
+      <button (click)="sendMessage()" class="send-button">Send</button>
+    </div>
+    <div class="chat-messages" #chatMessagesContainer>
+      <div *ngFor="let message of chatMessages" class="message">
+        <strong class="message-sender">{{ message.sender }}:</strong>
+        <span class="message-text">{{ message.text }}</span>
       </div>
     </div>
-
   </div>
 </main>
-
-
-
 
 <router-outlet />
