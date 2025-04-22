@@ -1,21 +1,17 @@
 <main class="chat-container">
+  <div class="chat-banner">
+    <img src="/banner.jpg" alt="image" />
+  </div>
   <div class="chat-box">
-    <h1 class="chat-title">Chat with any known person you like</h1>
-    <div class="input-group">
+    <div class="input-label-group">
+      <label for="personToImpersonate">Chat with any known person you like: &nbsp;&nbsp;</label>
       <input
+        id="personToImpersonate"
         type="text"
         [(ngModel)]="personToImpersonate"
         placeholder="Type the person to impersonate..."
-        class="input-field"
+        class="input-field small-input"
       />
-      <input
-        type="text"
-        [(ngModel)]="userInput"
-        placeholder="Type your message here..."
-        (keyup.enter)="sendMessage()"
-        class="input-field large-input"
-      />
-      <button (click)="sendMessage()" class="send-button">Send</button>
     </div>
     <div class="chat-messages" #chatMessagesContainer>
       <div *ngFor="let message of chatMessages" class="message">
@@ -23,6 +19,21 @@
         <span class="message-text">{{ message.text }}</span>
       </div>
     </div>
+    <div class="input-group">
+      <div class="input-box">
+        <input
+          type="text"
+          [(ngModel)]="userInput"
+          placeholder="Type your message here..."
+          (keyup.enter)="sendMessage()"
+          class="input-msg large-input"
+        />
+        <button (click)="sendMessage()" class="send-button">
+          <img src="send.svg" alt="Send" class="send-icon" />
+        </button>
+      </div>
+    </div>
+     
   </div>
 </main>
 

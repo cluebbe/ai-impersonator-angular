@@ -28,7 +28,7 @@ export class AppComponent {
       this.userInput = '';
 
       // API key
-      const apiKey = 'your-api-key-here'; // Replace with your actual API key
+      const apiKey = 'add-your-api-key-here';
 
       // Set headers
       const headers = new HttpHeaders({

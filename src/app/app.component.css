@@ -1,15 +1,27 @@
 .chat-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
+    max-width: 1000px;
+    margin: 10px auto;
+    padding: 10px;
   }
+
+.chat-box {
+    max-width: 800px;
+    margin: 10px auto;
+    padding: 10px;
+  }
+  
   
   .input-group {
     margin-bottom: 10px;
   }
+
+  .input-box {
+    display: flex;
+    padding: 5px;
+    /*margin-bottom: 10px;*/
+    border: 1px solid #ccc; }
   
   .chat-messages {
-    /*border: 1px solid #ccc;*/
     padding: 10px;
     height: 300px;
     overflow-y: auto;
@@ -21,12 +33,52 @@
     margin: 5px 0;
   }
   
-  input {
+  .input-msg {
+    border:none;
     padding: 5px;
-    width: 70%;
+    width: 90%;
+  }
+  
+  .input-msg:focus {
+    outline: none; /* Remove the default focus outline */
+    border: none; /* Ensure no border is added when focused */
+    background-color: #fff; /* Keep the background color unchanged */
+    color: #333; /* Keep the text color unchanged */
   }
   
   button {
     padding: 5px 10px;
     margin-left: 10px;
   }
+
+  .input-label-group .small-input {
+    width: 46%; /* Set the width to 200px */
+  }
+
+  .input-label-group label {
+    font-size: 24px; /* Increase the font size for the label */
+    font-weight: bold; /* Make the label bold for better visibility */
+    color: #333; /* Optional: Change the color for better contrast */
+}
+
+.send-icon {
+  align-self: right;
+  margin: 0 5px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  transition: transform 0.2s;
+}
+.send-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.send-button:hover .send-icon {
+  transform: scale(1.2); /* Slight zoom effect on hover */
+}
