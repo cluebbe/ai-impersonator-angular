@@ -3,12 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgFor } from '@angular/common';
+import { ChatComponent } from './chat/chat.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [NgFor, RouterModule, FormsModule],
+  imports: [NgFor, RouterModule, FormsModule, ChatComponent],
 })
 
 export class AppComponent {
