@@ -36,7 +36,9 @@ export class ChatComponent {
               this.chatMessagesContainer.nativeElement.scrollTop = this.chatMessagesContainer.nativeElement.scrollHeight;
             }, 500);
           }, 
-          error:(error: any) => {alert('Error:' + error.message);}       
+          error:(error: any) => {
+            alert('Error:' + error.message + '\nCause:' + error.cause.error);
+          }       
         });
       
 

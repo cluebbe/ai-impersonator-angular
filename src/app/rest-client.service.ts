@@ -42,6 +42,6 @@ export class RestClientService {
       console.error('Backend returned code ' + error.status, error.error);
     }
 
-    return throwError(() => new Error('Something bad happened; please try again later.'));
+    return throwError(() => new Error('Something bad happened; please try again later.', {cause: error.error}));
   }
 }
