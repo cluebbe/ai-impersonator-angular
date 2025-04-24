@@ -27,15 +27,18 @@ export class ChatComponent {
       this.chatMessages.push({ sender: 'You', text: userMessage });
       this.userInput = '';
       this.restClient.sendMessage(userMessage, this.personToImpersonate)
-        .subscribe((response: any) => {
-          const assistantMessage = response.choices[0]?.message?.content || 'No response received.';
-          console.log(response);
-          this.chatMessages.push({ sender: this.personToImpersonate, text: assistantMessage  });
-          setTimeout(() => {
-            this.chatMessagesContainer.nativeElement.scrollTop = this.chatMessagesContainer.nativeElement.scrollHeight;
-          }, 500);
-        }, (error: any) => alert('Some error happened'));
-
+        .subscribe({
+          next:(response: any) => {
+            const assistantMessage = response.choices[0]?.message?.content || 'No response received.';
+            console.log(response);
+            this.chatMessages.push({ sender: this.personToImpersonate, text: assistantMessage  });
+            setTimeout(() => {
+              this.chatMessagesContainer.nativeElement.scrollTop = this.chatMessagesContainer.nativeElement.scrollHeight;
+            }, 500);
+          }, 
+          error:(error: any) => {alert('Some error happened');}
+        });
+      
 
 
       }
