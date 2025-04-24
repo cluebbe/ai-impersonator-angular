@@ -34,7 +34,7 @@ export class ChatComponent {
           setTimeout(() => {
             this.chatMessagesContainer.nativeElement.scrollTop = this.chatMessagesContainer.nativeElement.scrollHeight;
           }, 500);
-        });
+        }, (error: any) => alert('Some error happened'));
 
 
 
