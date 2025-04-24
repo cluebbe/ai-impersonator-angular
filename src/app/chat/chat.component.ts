@@ -12,7 +12,7 @@ import { RestClientService } from '../rest-client.service';
 })
 export class ChatComponent {
   @ViewChild('chatMessagesContainer') chatMessagesContainer!: ElementRef;
-  title = 'ai-impersonator-angular';
+
   public userInput: string = '';
   public personToImpersonate: string = '';
   chatMessages: { sender: string; text: string }[] = [];
