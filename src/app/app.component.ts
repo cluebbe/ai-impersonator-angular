@@ -10,5 +10,5 @@ import { ChatComponent } from './chat/chat.component';
 })
 
 export class AppComponent {
- 
+  title = 'ai-impersonator-angular';
 }

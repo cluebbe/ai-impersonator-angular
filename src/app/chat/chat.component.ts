@@ -11,7 +11,7 @@ import { NgFor } from '@angular/common';
 })
 export class ChatComponent {
   @ViewChild('chatMessagesContainer') chatMessagesContainer!: ElementRef;
-  title = 'ai-impersonator-angular';
+
   public userInput: string = '';
   public personToImpersonate: string = '';
   chatMessages: { sender: string; text: string }[] = [];
