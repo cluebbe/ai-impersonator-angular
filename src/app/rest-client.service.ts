@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs/internal/observable/throwError';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +32,16 @@ export class RestClientService {
       stream: false,
     };
 
-    return this.http.post('https://api.x.ai/v1/chat/completions', requestBody, { headers });
+    return this.http.post('https://api.x.ai/v1/chat/completions', requestBody, { headers }).pipe(catchError(this.handleError) );
   }
 
+  private handleError(error: HttpErrorResponse) {
+    if( error.status === 0){
+      console.error('A client-side or network error occurred:', error.error);
+    } else {
+      console.error('Backend returned code ' + error.status, error.error);
+    }
+
+    return throwError(() => new Error('Something bad happened; please try again later.'));
+  }
 }
