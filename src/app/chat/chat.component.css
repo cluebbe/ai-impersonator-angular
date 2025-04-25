@@ -1,11 +1,10 @@
 .chat-container {
-    /*max-width: 1000px;*/
+    max-width: 1000px;
     margin: 10px auto;
     padding: 10px;
   }
 
 .chat-box {
-    /*max-width: 900px;*/
     margin: 10px auto;
     padding: 10px;
   }
@@ -36,7 +35,7 @@
   .input-msg {
     border:none;
     padding: 5px;
-    width: 90%;
+    width: 89%;
   }
   
   .input-msg:focus {
@@ -52,7 +51,7 @@
   }
 
   .input-label-group .small-input {
-    width: 46%; /* Set the width to 200px */
+    width: 51%; /* Set the width to 200px */
   }
 
   .input-label-group label {
