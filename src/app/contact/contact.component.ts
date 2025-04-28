@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-contact',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.css'
 })
