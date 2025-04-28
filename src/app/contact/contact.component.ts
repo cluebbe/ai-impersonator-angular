@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-contact',
@@ -8,5 +8,14 @@ import { ReactiveFormsModule } from '@angular/forms';
   styleUrl: './contact.component.css'
 })
 export class ContactComponent {
+  nameControl = new FormControl('');
+  emailControl = new FormControl('');
+  messageControl = new FormControl('');
+
+  submitForm() {
+    if(this.nameControl.dirty){
+      alert('You changed the name field');
+    }
+  }
 
 }

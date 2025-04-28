@@ -1,18 +1,18 @@
 <form class="form-container">
     <div class="form-group">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="name" [formControl]="nameControl">
     </div>
     <div class="form-group">
         <label for="email">Email:</label>
-        <input type="text" id="email" name="email" required>
+        <input type="text" id="email" name="email" [formControl]="nameControl">
     </div>
     <div class="form-group">
         <label for="message">Message:</label>
-        <textarea id="message" name="message" required></textarea>
+        <textarea id="message" name="message" [formControl]="nameControl"></textarea>
     </div>
     <div class="form-group">
-        <button type="submit">Submit</button>
+        <button type="submit" (click)="$event.preventDefault(); submitForm(); ">Submit</button>
     </div>
 </form>
 
