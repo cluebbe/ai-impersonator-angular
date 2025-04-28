@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule} from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-contact',
@@ -9,14 +9,14 @@ import { FormGroup, FormControl, ReactiveFormsModule} from '@angular/forms';
 })
 export class ContactComponent {
   contactForm = new FormGroup({
-    nameControl: new FormControl(''),
-    emailControl: new FormControl(''),
-    messageControl: new FormControl('')
+    nameControl: new FormControl('', Validators.required),
+    emailControl: new FormControl('', Validators.required),
+    messageControl: new FormControl('', Validators.required),
   })
  
 
   submitForm() {
-    console.log(this.contactForm.value);
+    console.log(this.contactForm.valid);
     // if(this.nameControl.dirty){
     //   alert('You changed the name field');
     // }
