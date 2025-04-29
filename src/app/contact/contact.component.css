@@ -49,3 +49,9 @@ button {
 button:hover {
     background-color: #55557c;
 }
+
+button:disabled {
+    background-color: gray; /* Set the disabled color to gray */
+    cursor: not-allowed; /* Change the cursor to indicate the button is disabled */
+    opacity: 0.6; /* Optional: Add some transparency for a disabled effect */
+}

@@ -11,7 +11,7 @@ export class ContactComponent {
   contactForm = new FormGroup({
     nameControl: new FormControl('', Validators.required),
     emailControl: new FormControl('', Validators.required),
-    messageControl: new FormControl('', Validators.required),
+    messageControl: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(20)]),
   })
  
 
@@ -20,6 +20,7 @@ export class ContactComponent {
     // if(this.nameControl.dirty){
     //   alert('You changed the name field');
     // }
+    
   }
 
 }
