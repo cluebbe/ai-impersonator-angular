@@ -55,3 +55,9 @@ button:disabled {
     cursor: not-allowed; /* Change the cursor to indicate the button is disabled */
     opacity: 0.6; /* Optional: Add some transparency for a disabled effect */
 }
+
+.validation-error {
+    color: red; /* Set the text color to red */
+    font-size: 14px; /* Adjust the font size */
+    margin-top: 5px; /* Add some spacing above the error message */
+}
