@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgFor } from '@angular/common';
 import { RestClientService } from '../rest-client.service';
+import { NotificationService } from '../notification/notification.service';
+import { not } from 'rxjs/internal/util/not';
 
 @Component({
   selector: 'app-chat',
@@ -17,7 +19,7 @@ export class ChatComponent {
   public personToImpersonate: string = '';
   chatMessages: { sender: string; text: string }[] = [];
 
-  constructor(private restClient: RestClientService) {}
+  constructor(private restClient: RestClientService, private notify: NotificationService) {}
 
   sendMessage() {
     
@@ -37,7 +39,8 @@ export class ChatComponent {
             }, 500);
           }, 
           error:(error: any) => {
-            alert('Error:' + error.message + '\nCause:' + error.cause.error);
+            //alert('Error:' + error.message + '\nCause:' + error.cause.error);
+            this.notify.addNotification({type: 'ERROR', message: 'Error: ' + error.message + '\nCause: ' + error.cause.error});
           }       
         });
       
