@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationMessage } from '../notification-message.model';
+import { NotificationService } from '../notification.service';
 
 @Component({
   selector: 'app-notification',
@@ -8,25 +9,20 @@ import { NotificationMessage } from '../notification-message.model';
   standalone: false,
 })
 
-export class NotificationComponent implements OnInit{
+export class NotificationComponent {
   notifications: NotificationMessage[] = [];
 
+
+  constructor(public notificationService: NotificationService) {}
+
   ngOnInit(): void {
-    // Add two dummy notifications on initialization
-    this.addNotification({ type: 'ERROR', message: 'This is an error message.' });
-    this.addNotification({ type: 'INFO', message: 'This is an info message.' });
+    // Subscribe to notifications from the service
+    this.notificationService.notifications$.subscribe(
+      (notifications) => (this.notifications = notifications)
+    );
   }
 
-  addNotification(notification: NotificationMessage) {
-    this.notifications.push(notification);
-    setTimeout(() => {
-      this.removeNotification(notification);
-    }, 5000);
-  }
 
-  removeNotification(notification: NotificationMessage ) {
-    this.notifications.shift();
-  }
 }
 
 

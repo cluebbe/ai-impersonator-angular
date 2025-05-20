@@ -1,5 +1,5 @@
 <div *ngFor="let notification of notifications">
   <div class="notification" [ngClass]="notification.type">
     <p>{{ notification.message }}</p>
-    <button (click)="removeNotification(notification)">Close</button>
+    <button (click)="this.notificationService.removeNotification(notification)">Close</button>
   </div>
