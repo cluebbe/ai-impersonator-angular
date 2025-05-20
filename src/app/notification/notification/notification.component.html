@@ -1,5 +1,8 @@
-<div *ngFor="let notification of notifications">
-  <div class="notification" [ngClass]="notification.type">
+<div class="notification-container">
+  <div *ngFor="let notification of notifications" class="notification" [ngClass]="{'error': notification.type === 'ERROR', 'info': notification.type === 'INFO'}">
+    <button class="close-button" (click)="notificationService.removeNotification(notification)">
+      <img src="x-close.svg" alt="Close" />
+    </button>
     <p>{{ notification.message }}</p>
-    <button (click)="this.notificationService.removeNotification(notification)">Close</button>
   </div>
+</div>

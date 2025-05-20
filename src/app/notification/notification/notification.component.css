@@ -1,0 +1,56 @@
+/* Notification container styling */
+.notification-container {
+  position: fixed; /* Keep the notifications visible even when scrolling */
+  top: 30px; /* Start at the top of the viewport */
+  right: 20px; /* Align to the right of the viewport */
+  width: 14%; /* Set a fixed width for the notification list */
+  z-index: 1000; /* Ensure it appears above other elements */
+  display: flex;
+  flex-direction: column; /* Stack notifications vertically */
+  gap: 10px; /* Add spacing between notifications */
+}
+
+/* General notification styling */
+.notification {
+  position: relative; /* Make the close button position relative to the notification box */
+  padding: 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  opacity: 0.9; /* Semi-transparent */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Error notification styling */
+.error {
+  background-color: rgba(255, 0, 0, 0.8); /* Red with transparency */
+  border: 1px solid rgba(255, 0, 0, 0.9);
+}
+
+/* Info notification styling */
+.info {
+  background-color: rgba(0, 128, 0, 0.8); /* Green with transparency */
+  border: 1px solid rgba(0, 128, 0, 0.9);
+}
+
+/* Close button styling */
+.close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.close-button img {
+  width: 16px;
+  height: 16px;
+}
+
+.close-button:hover img {
+  opacity: 0.7;
+}
