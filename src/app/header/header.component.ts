@@ -13,5 +13,6 @@ export class HeaderComponent {
   constructor(public authService: AuthService) {}
   logout() {
     this.authService.logout();
+    window.location.reload();
   }
 }

@@ -9,9 +9,22 @@ export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
   const notificationService = inject(NotificationService);
+  const expectedRole = route.data['role'];
 
   if (authService.isAuthenticated()) {
-    return true; // Allow access
+    if (expectedRole) {
+      const userRole = authService.getCurrentUserRole();
+      if (userRole === expectedRole) {
+        return true;
+      } else {
+        notificationService.addNotification({
+        type: 'ERROR',
+        message: 'Insufficient rights to access this page.',
+    });
+        return false;
+      }
+    }
+    return true; // Allow access if authenticated and no specific role is required
   } else {
 
     notificationService.addNotification({

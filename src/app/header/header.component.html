@@ -2,6 +2,7 @@
     <div class="link" id="home" routerLink="home">Home</div>
     <div id="links">
         <div class="link" routerLink="dashboard">Dashboard</div>
+        <div class="link" routerLink="admin">Admin</div>
         <div class="link" routerLink="login" *ngIf="!authService.isAuthenticated()">Login</div>
         <div class="link" *ngIf="authService.isAuthenticated()" (click)="logout()">Logout</div>
         <div class="link" routerLink="contact">Contact</div>      
