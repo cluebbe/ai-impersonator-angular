@@ -2,7 +2,10 @@ import { Component} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { NotificationModule } from './notification/notification.module';
+import { OnInit } from '@angular/core';
+import { AuthService } from './auth.service';
 import { NotificationService } from './notification/notification.service';
+
 
 
 
@@ -13,11 +16,13 @@ import { NotificationService } from './notification/notification.service';
   imports: [RouterModule, HeaderComponent, NotificationModule],
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'ai-impersonator-angular';
 
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
-
+  ngOnInit(): void {
+    this.authService.init();
+  }
 
 }

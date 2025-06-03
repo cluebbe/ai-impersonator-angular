@@ -1,0 +1,52 @@
+.login-container {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 24px;
+  background: #f8f8ff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(34, 12, 103, 0.08);
+}
+
+h2 {
+  text-align: center;
+  color: #220c67;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  color: #220c67;
+  font-weight: 500;
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #220c67;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+  background-color: #55557c;
+}

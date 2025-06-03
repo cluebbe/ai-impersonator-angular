@@ -1,1 +1,2 @@
-<p>dashboard works!</p>
+<p>Welcome to your personal dashboard</p>
+<p *ngIf="authService.getCurrentUserRole() === 'guest'">Consider upgrading your membership</p>
