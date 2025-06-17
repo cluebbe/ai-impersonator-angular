@@ -16,13 +16,10 @@ import { NotificationService } from './notification/notification.service';
   imports: [RouterModule, HeaderComponent, NotificationModule],
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent  {
   title = 'ai-impersonator-angular';
 
   constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {
-    this.authService.init();
-  }
 
 }

@@ -33,16 +33,15 @@ export class LoginComponent {
 
   // Stub for login method
   login() {
-    this.authService.login(this.username, this.password);
-    if (this.authService.isAuthenticated()) {
-      console.log('Login successful');
-      this.router.navigate([this.returnUrl]);
-    } else {
-      console.error('Login failed');
-      this.notificationService.addNotification({
-        type: 'ERROR',
-        message: 'Login failed. Please check your username and password.',
-      });
-    }
+    this.authService.login(this.username, this.password).then(success => {
+      if (success) {
+        this.router.navigate([this.returnUrl]);
+      } else {
+        this.notificationService.addNotification({
+          type: 'ERROR',
+          message: 'Login failed. Please check your username and password.',
+        });
+      }
+    });
   }
 }

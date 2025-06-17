@@ -2,9 +2,9 @@
     <div class="form-group">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" formControlName="nameControl">
-        <div *ngIf="contactForm.get('nameControl')?.invalid && (contactForm.get('emailControl')?.dirty || contactForm.get('emailControl')?.touched)" class="validation-error">
+       <div *ngIf="contactForm.get('nameControl')?.invalid && (contactForm.get('emailControl')?.dirty || contactForm.get('emailControl')?.touched)" class="validation-error">
             <div *ngIf="contactForm.get('nameControl')?.errors?.['required']">Name is required.</div>
-        </div>
+        </div> 
     </div>
     <div class="form-group">
         <label for="email">Email:</label>
