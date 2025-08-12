@@ -17,7 +17,6 @@ import { NotificationService } from './notification/notification.service';
 })
 
 export class AppComponent implements OnInit {
-  title = 'ai-impersonator-angular';
 
   constructor(private authService: AuthService) {}
 
