@@ -8,7 +8,7 @@ describe('NotificationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NotificationComponent]
+      declarations: [NotificationComponent]
     })
     .compileComponents();
 
