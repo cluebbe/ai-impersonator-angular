@@ -1,0 +1,7 @@
+<div class="traffic-light-container" [ngStyle]="containerStyle">
+  <div class="traffic-light" [ngStyle]="trafficLightStyle">
+    <div class="light red" [class.on]="currentColor === 'red'" [ngStyle]="lightStyle"></div>
+    <div class="light yellow" [class.on]="currentColor === 'yellow'" [ngStyle]="lightStyle"></div>
+    <div class="light green" [class.on]="currentColor === 'green'" [ngStyle]="lightStyle"></div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+.traffic-light-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.traffic-light {
+  background: #222;
+  display: flex;
+  flex-direction: column;
+}
+
+.light {
+  border-radius: 50%;
+  background: #444;
+  opacity: 0.3;
+  transition: opacity 0.2s, box-shadow 0.2s;
+  margin: 0 auto;
+}
+
+.light.red.on {
+  background: red;
+  opacity: 1;
+  box-shadow: 0 0 12px 2px red;
+}
+
+.light.yellow.on {
+  background: yellow;
+  opacity: 1;
+  box-shadow: 0 0 12px 2px yellow;
+}
+
+.light.green.on {
+  background: green;
+  opacity: 1;
+  box-shadow: 0 0 12px 2px green;
+}

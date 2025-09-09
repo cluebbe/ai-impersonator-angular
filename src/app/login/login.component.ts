@@ -33,6 +33,7 @@ export class LoginComponent {
 
   // Stub for login method
   login() {
+    console.log('Attempting login with', this.username, this.password);
     this.authService.login(this.username, this.password);
     if (this.authService.isAuthenticated()) {
       console.log('Login successful');

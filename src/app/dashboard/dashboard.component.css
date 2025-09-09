@@ -1,0 +1,11 @@
+.server-row {
+  display: flex;
+  align-items: center; /* Vertically center text with traffic light */
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.server-row span {
+  font-size: 1rem;
+  vertical-align: middle;
+}

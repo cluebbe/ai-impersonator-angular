@@ -1,2 +1,8 @@
 <p>Welcome to your personal dashboard</p>
 <p *ngIf="authService.getCurrentUserRole() === 'guest'">Consider upgrading your membership</p>
+
+<div *ngFor="let server of serverLoads" class="server-row">
+  <app-traffic-light [value]="server.value" [height]="50"></app-traffic-light>
+  <span>{{ server.name }}: {{ server.value }}%</span>
+  <br/><br/><br/><br/>
+</div>
