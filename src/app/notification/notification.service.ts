@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnInit, signal } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { NotificationMessage } from './notification-message.model';
 
@@ -6,14 +6,13 @@ import { NotificationMessage } from './notification-message.model';
   providedIn: 'root'
 })
 export class NotificationService {
- 
-  private notificationsSubject = new BehaviorSubject<NotificationMessage[]>([]);
-  notifications$ = this.notificationsSubject.asObservable();
 
+  private notifications = signal<NotificationMessage[]>([]);
+  notifications$ = this.notifications.asReadonly();
+  
   addNotification(notification: NotificationMessage) {
-    const currentNotifications = this.notificationsSubject.value;
-    this.notificationsSubject.next([...currentNotifications, notification]);
-
+    this.notifications.update((prev) => [...prev, notification]);
+   
     // Automatically remove the notification after 5 seconds
     setTimeout(() => {
       this.removeNotification(notification);
@@ -21,9 +20,8 @@ export class NotificationService {
   }
 
   removeNotification(notification: NotificationMessage) {
-    const currentNotifications = this.notificationsSubject.value.filter(
-      (n) => n !== notification
+    this.notifications.update(current =>
+      current.filter(n => n !== notification)
     );
-    this.notificationsSubject.next(currentNotifications);
   }
 }

@@ -10,18 +10,8 @@ import { NotificationService } from '../notification.service';
 })
 
 export class NotificationComponent {
-  notifications: NotificationMessage[] = [];
-
 
   constructor(public notificationService: NotificationService) {}
-
-  ngOnInit(): void {
-    // Subscribe to notifications from the service
-    this.notificationService.notifications$.subscribe(
-      (notifications) => (this.notifications = notifications)
-    );
-  }
-
 
 }
 
