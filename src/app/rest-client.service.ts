@@ -20,7 +20,7 @@ export class RestClientService {
     });
 
     const requestBody = {
-      model: 'grok-2-1212',
+      model: 'grok-4',
       messages: [
         {
           role: 'user',
@@ -34,6 +34,12 @@ export class RestClientService {
 
     return this.http.post('https://api.x.ai/v1/chat/completions', requestBody, { headers }).pipe(catchError(this.handleError) );
   }
+
+  getEmployeSalaryDistr() {
+
+    return this.http.get('http://localhost:3000/employe-salary-distribution' ).pipe(catchError(this.handleError) );
+  }
+
 
   private handleError(error: HttpErrorResponse) {
     if( error.status === 0){
