@@ -23,18 +23,10 @@ export class DashboardComponent {
   { name: 'Server I', value: 49 },
   { name: 'Server J', value: 5 }
   ];
-  employeeSalaryDistribution: any = [];
 
-  constructor(public authService: AuthService, public restClient: RestClientService) { 
-    this.restClient.getEmployeSalaryDistr().subscribe({
-      next: (data) => {
-        console.log('Employee Salary Distribution:', data);
-        this.employeeSalaryDistribution = data;
-      },
-      error: (error) => {
-        console.error('Error fetching employee salary distribution:', error);
-      }
-    });
+
+  constructor(public authService: AuthService) { 
+
   }
 
 }
