@@ -1,16 +1,20 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { AuthService } from '../auth.service';
 import { TrafficLightComponent } from "../traffic-light/traffic-light.component";
-import { RestClientService } from '../rest-client.service';
+import { UsagePricePipe } from '../pipes/usage-price.pipe';
+import { CurrencyConvertPipe } from '../pipes/currency-convert.pipe';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, TrafficLightComponent],
+  imports: [CommonModule, FormsModule, CurrencyPipe, TrafficLightComponent, UsagePricePipe, CurrencyConvertPipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+    selectedCurrency = 'USD';
+
     serverLoads: any = [
       { name: 'Server A', value: 12 },
   { name: 'Server B', value: 45 },

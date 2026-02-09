@@ -9,3 +9,70 @@
   font-size: 1rem;
   vertical-align: middle;
 }
+
+.pricing-header {
+  margin: 24px 0 16px 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.pricing-title-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 8px;
+}
+
+.pricing-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.currency-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.currency-selector label {
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+}
+
+.currency-selector select {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  background-color: white;
+  cursor: pointer;
+  min-width: 200px;
+}
+
+.currency-selector select:hover {
+  border-color: #999;
+}
+
+.currency-selector select:focus {
+  outline: none;
+  border-color: #2196F3;
+  box-shadow: 0 0 4px rgba(33, 150, 243, 0.3);
+}
+
+.pricing-note {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+}
+
+.usage-price {
+  font-weight: bold;
+  color: #2196F3;
+  margin-left: auto;
+  min-width: 100px;
+  text-align: right;
+}
