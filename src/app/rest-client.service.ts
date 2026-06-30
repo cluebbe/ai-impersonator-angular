@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class RestClientService {
 
   sendMessage(userMessage: string, personToImpersonate: string) {
     const userMessagePretext = "Please answer the following question as if you were an actor impersonating " + personToImpersonate + " (100 Tokens max): "
-    const apiKey = 'add-your-api-key-here';
+    const apiKey = environment.xaiApiKey;
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
