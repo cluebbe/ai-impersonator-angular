@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { NotificationModule } from './notification/notification.module';
@@ -13,6 +13,7 @@ import { NotificationService } from './notification/notification.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterModule, HeaderComponent, NotificationModule],
 })
 

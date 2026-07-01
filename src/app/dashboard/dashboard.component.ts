@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+
 import { AuthService } from '../auth.service';
 import { TrafficLightComponent } from "../traffic-light/traffic-light.component";
 import { RestClientService } from '../rest-client.service';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, TrafficLightComponent],
+  imports: [TrafficLightComponent],
   templateUrl: './dashboard.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {

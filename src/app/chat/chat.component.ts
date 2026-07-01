@@ -1,7 +1,7 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { NgFor } from '@angular/common';
+
 import { RestClientService } from '../rest-client.service';
 import { NotificationService } from '../notification/notification.service';
 import { not } from 'rxjs/internal/util/not';
@@ -10,7 +10,8 @@ import { not } from 'rxjs/internal/util/not';
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
-  imports: [NgFor, FormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [FormsModule],
 })
 export class ChatComponent {
   @ViewChild('chatMessagesContainer') chatMessagesContainer!: ElementRef;

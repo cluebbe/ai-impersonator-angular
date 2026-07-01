@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderComponent } from './header.component';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 
 describe('HeaderComponent', () => {
@@ -12,7 +12,7 @@ describe('HeaderComponent', () => {
     await TestBed.configureTestingModule({
       imports: [HeaderComponent],
        providers: [
-      provideHttpClient(),
+      provideHttpClient(withXhr()),
       { provide: ActivatedRoute, useValue: { queryParams: { subscribe: () => {} } } }
     ]
     })

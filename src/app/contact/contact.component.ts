@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
-import { CommonModule } from '@angular/common';  
+  
 import { NotificationService } from '../notification/notification.service';
 
 @Component({
   selector: 'app-contact',
-  imports: [ReactiveFormsModule, CommonModule], 
+  imports: [ReactiveFormsModule], 
   templateUrl: './contact.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './contact.component.css'
 })
 export class ContactComponent {
