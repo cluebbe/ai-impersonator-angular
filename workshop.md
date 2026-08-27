@@ -2,13 +2,282 @@
 
 Build an Angular application step by step. Each exercise describes what to implement — the solution is hidden in the details block below it.
 
+This file is self-contained: Part 0 sets up everything you need (Node, the Angular CLI, the
+project, the API key and the static assets), Parts 1 and 2 are the exercises, and the appendix
+lists the finished project layout.
+
+**Contents**
+
+- [Part 0: Environment Setup](#part-0-environment-setup) — do this before the workshop
+- [Part 1: Navbar, Home Page & Contact Form](#part-1-navbar-home-page--contact-form) — Exercises 1–7
+- [Part 2: Login, Auth Guard & Dashboard](#part-2-login-auth-guard--dashboard) — Exercises 8–12
+- [Appendix A: Finished project structure](#appendix-a-finished-project-structure)
+- [Appendix B: What you learned](#appendix-b-what-you-learned)
+
+---
+
+## Part 0: Environment Setup
+
+> Do this part before the workshop starts. It takes ~15 minutes, most of it `npm install`.
+> Everything you need is in this file — you do not need the repository or the README.
+
+### What you will build
+
+A single-page Angular application that lets you chat with an AI impersonating any well-known
+person, plus a contact form, a login with role-based route guards, and a dashboard. The AI
+answers come from the [xAI Grok API](https://x.ai) called directly from the browser.
+
+### 0.1 Prerequisites
+
+| Tool | Version | Check with |
+|---|---|---|
+| Node.js | 22 LTS or newer (this workshop was written on 26.4) | `node -v` |
+| npm | 10 or newer (ships with Node) | `npm -v` |
+| Angular CLI | 22.x | `ng version` |
+| Editor | VS Code + the "Angular Language Service" extension (recommended) | — |
+| Browser | Any current Chrome / Edge / Firefox / Safari | — |
+| xAI API key | any key with credit — see 0.2 | — |
+
+**Installing Node.js**
+
+- macOS / Linux (recommended, lets you switch versions):
+  ```bash
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+  nvm install 22        # or: nvm install 26
+  nvm use 22
+  ```
+- Windows: download the LTS installer from <https://nodejs.org> (or `winget install OpenJS.NodeJS.LTS`).
+
+**Installing the Angular CLI**
+
+```bash
+npm install -g @angular/cli@22
+ng version            # must print Angular CLI: 22.x
+```
+
+If `ng` is not found after installing, your npm global bin directory is not on the `PATH`.
+Print it with `npm config get prefix` and add the `bin` subfolder to your `PATH`, or just use
+`npx ng ...` instead of `ng ...` everywhere in this workshop.
+
+### 0.2 Get an xAI API key
+
+1. Sign up at <https://console.x.ai> and create a team.
+2. Add a payment method / credits — the free tier is not enough for the `grok-4` model.
+3. Go to **API Keys → Create API Key**, copy the key (it starts with `xai-`).
+4. Keep it somewhere safe for step 0.5. You can only see it once.
+
+The workshop caps each answer at 100 tokens, so a full workshop day costs cents, not dollars.
+
+> **No key?** Everything except Exercise 4/5 (the chat) works without one. The chat page will
+> render and show an error notification instead of an answer. You can still finish all other
+> exercises. If you want a working chat without xAI, swap the URL, model and key in
+> `RestClientService` for any other OpenAI-compatible chat-completions endpoint — the request
+> and response shapes are identical.
+
+### 0.3 Create the workspace
+
+```bash
+ng new ai-impersonator-angular \
+  --style=css \
+  --routing \
+  --ssr=false \
+  --zoneless=false \
+  --file-name-style-guide=2016 \
+  --test-runner=karma \
+  --package-manager=npm
+
+cd ai-impersonator-angular
+```
+
+Why these flags:
+
+| Flag | Reason |
+|---|---|
+| `--style=css` | Plain CSS, no preprocessor to install |
+| `--routing` | Creates `app.routes.ts`, needed from Exercise 2 on |
+| `--ssr=false` | Client-side only; SSR would break `localStorage`/direct API calls |
+| `--zoneless=false` | Keeps `zone.js` and `provideZoneChangeDetection`, which the solutions use |
+| `--file-name-style-guide=2016` | Generates `header.component.ts` instead of `header.ts`, matching every path in this workshop |
+| `--test-runner=karma` | Matches the `*.spec.ts` files in the solutions |
+
+On Windows PowerShell, put the whole command on one line (drop the `\` line continuations).
+
+### 0.4 Verify the empty app runs
+
+```bash
+npm start          # same as: ng serve
+```
+
+Open <http://localhost:4200>. You should see the Angular starter page. Stop the server with
+`Ctrl+C`. If port 4200 is taken, use `ng serve --port 4300`.
+
+### 0.5 Add your API key
+
+The key must never be committed. Create two files:
+
+**`src/environments/environment.example.ts`** — the committed template:
+
+```ts
+export const environment = {
+  xaiApiKey: 'add-your-api-key-here',
+};
+```
+
+**`src/environments/environment.ts`** — your real key, gitignored:
+
+```bash
+mkdir -p src/environments
+cp src/environments/environment.example.ts src/environments/environment.ts
+```
+
+Edit `src/environments/environment.ts` and paste your key:
+
+```ts
+export const environment = {
+  xaiApiKey: 'xai-...your-key...',
+};
+```
+
+Then append this to `.gitignore`:
+
+```
+# Local environment (contains secrets)
+src/environments/environment.ts
+```
+
+> **Security note:** anything in `environment.ts` is bundled into the JavaScript the browser
+> downloads, so the key is visible to anyone who opens the app. That is fine for a local
+> workshop; in production the API call belongs on a backend that keeps the key server-side.
+
+### 0.6 Add the static assets
+
+Everything in `public/` is copied to the web root by the CLI, so `public/banner.jpg` is served
+at `/banner.jpg`.
+
+**`public/userlist.json`** — the in-memory user store loaded by `AuthService` in Part 2:
+
+```json
+[
+  {
+    "username": "admin",
+    "password": "verySecret",
+    "role": "admin"
+  },
+  {
+    "username": "user",
+    "password": "verySecret",
+    "role": "user"
+  },
+  {
+    "username": "guest",
+    "password": "verySecret",
+    "role": "guest"
+  }
+]
+```
+
+**`public/send.svg`** — the send arrow in the chat input (Exercise 4):
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg" fill="#000000" height="800px" width="800px"
+     viewBox="0 0 512.001 512.001">
+  <path d="M483.927,212.664L66.967,25.834C30.95,9.695-7.905,42.023,1.398,80.368l21.593,89.001
+    c3.063,12.622,11.283,23.562,22.554,30.014l83.685,47.915c6.723,3.85,6.738,13.546,0,17.405l-83.684,47.915
+    c-11.271,6.452-19.491,17.393-22.554,30.015l-21.594,89c-9.283,38.257,29.506,70.691,65.569,54.534l416.961-186.83
+    C521.383,282.554,521.333,229.424,483.927,212.664z M359.268,273.093l-147.519,66.1c-9.44,4.228-20.521,0.009-24.752-9.435
+    c-4.231-9.44-0.006-20.523,9.434-24.752l109.37-49.006l-109.37-49.006c-9.44-4.231-13.665-15.313-9.434-24.752
+    c4.229-9.44,15.309-13.666,24.752-9.435l147.519,66.101C373.996,245.505,374.007,266.49,359.268,273.093z"/>
+</svg>
+```
+
+**`public/x-close.svg`** — the dismiss button on notifications (Exercise 6):
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" height="24" width="24" viewBox="0 0 24 24">
+  <path d="m18 6-12 12m0-12 12 12" stroke="#000" stroke-linecap="round"
+        stroke-linejoin="round" stroke-width="2"/>
+</svg>
+```
+
+**`public/banner.jpg`** — the header image on the chat page. Use any wide image you like
+(roughly 1200×300 works well). If you skip it, the chat page shows a broken-image icon and
+nothing else breaks.
+
+### 0.7 Angular CLI commands used in this workshop
+
+You never have to create files by hand — generate them and paste the solution in:
+
+```bash
+ng generate component header          # → src/app/header/header.component.{ts,html,css,spec.ts}
+ng generate component chat
+ng generate component contact
+ng generate component login
+ng generate component dashboard
+ng generate component admin
+ng generate component traffic-light
+ng generate component notification/notification
+
+ng generate service rest-client       # → src/app/rest-client.service.ts
+ng generate service auth
+ng generate service notification/notification
+
+ng generate guard auth                # choose "CanActivate" when prompted
+```
+
+Short forms work too: `ng g c header`, `ng g s auth`, `ng g g auth`.
+
+Other commands you will need:
+
+| Command | What it does |
+|---|---|
+| `npm start` / `ng serve` | Dev server with live reload on <http://localhost:4200> |
+| `ng serve --port 4300` | Same, on another port |
+| `ng build` | Production build into `dist/` |
+| `ng test` | Runs the Karma unit tests |
+| `ng version` | Prints CLI / Angular / Node versions |
+
+### 0.8 Demo credentials (Part 2)
+
+Loaded from `public/userlist.json` at startup:
+
+| Username | Password | Role | Can reach |
+|---|---|---|---|
+| `admin` | `verySecret` | admin | Dashboard **and** Admin |
+| `user` | `verySecret` | user | Dashboard |
+| `guest` | `verySecret` | guest | Dashboard (sees an upgrade prompt) |
+
+### 0.9 Troubleshooting
+
+| Symptom | Cause / fix |
+|---|---|
+| `ng: command not found` | CLI not on `PATH` — use `npx ng ...`, or add `$(npm config get prefix)/bin` to `PATH` |
+| `Port 4200 is already in use` | Another dev server is running — `ng serve --port 4300`, or kill it with `lsof -ti:4200 \| xargs kill` |
+| `Cannot find module './environments/environment'` | You skipped 0.5 — `environment.ts` is gitignored and must be created locally |
+| Chat shows `Backend returned code 401` | API key missing, wrong, or still `add-your-api-key-here` — check `src/environments/environment.ts`, then restart `ng serve` (environment files are only read at build time) |
+| Chat shows `Backend returned code 429` | Rate limit or no credits on the xAI account |
+| Chat shows `A client-side or network error occurred` (status 0) | No internet, a corporate proxy, or an ad blocker blocking `api.x.ai` |
+| Login always fails | `public/userlist.json` missing or malformed — open <http://localhost:4200/userlist.json> and check that the JSON loads |
+| `NullInjectorError: No provider for HttpClient` | `provideHttpClient()` missing from `app.config.ts` (Exercise 1) |
+| Template errors after generating a component | Standalone components need their dependencies in `imports: [...]` — e.g. `FormsModule`, `ReactiveFormsModule`, `RouterLink` |
+| Changes not showing up | Hard reload (`Cmd/Ctrl+Shift+R`); if that fails, stop the server, `rm -rf .angular/cache`, `ng serve` |
+
+### 0.10 Ready check
+
+Before Exercise 1, confirm:
+
+- [ ] `ng version` prints Angular CLI 22.x and Node 22+
+- [ ] `npm start` serves the app at <http://localhost:4200>
+- [ ] `src/environments/environment.ts` exists and holds your real `xai-` key
+- [ ] `src/environments/environment.ts` is listed in `.gitignore`
+- [ ] `public/userlist.json`, `public/send.svg` and `public/x-close.svg` exist
+
 ---
 
 ## Part 1: Navbar, Home Page & Contact Form
 
 ### Exercise 1 — Bootstrap the App
 
-Create a new Angular application. The root component (`AppComponent`) should:
+Starting from the empty workspace you created in Part 0, wire up the application shell. The root component (`AppComponent`) should:
 - Use a standalone component approach with `app.config.ts`
 - Render a `<app-header>` component and a `<router-outlet>`
 - Provide `HttpClient` and the router in `app.config.ts`
@@ -994,3 +1263,69 @@ export class TrafficLightComponent {
 ```
 
 </details>
+
+---
+
+## Appendix A: Finished project structure
+
+After Exercise 12 your workspace looks like this:
+
+```
+ai-impersonator-angular/
+├── public/                          # copied to the web root as-is
+│   ├── banner.jpg                   # chat page header image
+│   ├── favicon.ico
+│   ├── send.svg                     # chat send button
+│   ├── x-close.svg                  # notification dismiss button
+│   └── userlist.json                # in-memory user store
+├── src/
+│   ├── index.html
+│   ├── main.ts                      # bootstrapApplication(AppComponent, appConfig)
+│   ├── styles.css                   # global styles
+│   ├── environments/
+│   │   ├── environment.example.ts   # committed template
+│   │   └── environment.ts           # gitignored — your real xAI key
+│   └── app/
+│       ├── app.component.*          # root — hosts header + router outlet
+│       ├── app.config.ts            # providers: router, HttpClient
+│       ├── app.routes.ts            # route definitions incl. guards
+│       ├── auth.service.ts          # login, logout, roles
+│       ├── auth.guard.ts            # functional route guard
+│       ├── rest-client.service.ts   # xAI API calls
+│       ├── header/                  # navbar, dynamic Login/Logout link
+│       ├── chat/                    # home page — AI chat
+│       ├── contact/                 # reactive form + validation
+│       ├── login/                   # template-driven form
+│       ├── dashboard/               # protected page, server load overview
+│       ├── admin/                   # admin-role-only page
+│       ├── traffic-light/           # reusable presentational component
+│       └── notification/            # signal-based notifications
+├── angular.json
+├── package.json
+└── tsconfig.json
+```
+
+## Appendix B: What you learned
+
+| Exercise | Angular concept |
+|---|---|
+| 1 | Standalone bootstrap, `ApplicationConfig`, providers |
+| 2 | Router configuration, wildcard routes |
+| 3 | `routerLink`, component styles, flexbox layout |
+| 4 | Template-driven binding (`[(ngModel)]`), `@ViewChild`, event handling |
+| 5 | Services, dependency injection, `HttpClient`, RxJS `catchError` |
+| 6 | Signals, `signal()` / `asReadonly()`, service-driven UI state |
+| 7 | Reactive forms, `FormGroup` / `FormControl`, `Validators` |
+| 8 | Stateful services, loading JSON assets at startup |
+| 9 | Template-driven forms, programmatic navigation with `Router` |
+| 10 | Functional route guards, `inject()`, route `data` for roles |
+| 11 | Guarding routes, conditional templates with `@if` |
+| 12 | `@Input()`, `@for` control flow, presentational components |
+
+### Where to go next
+
+- Move the xAI call behind a small backend so the API key never reaches the browser.
+- Replace the in-memory `AuthService` with a real token-based login and an `HttpInterceptor`.
+- Lazy-load the dashboard and admin routes with `loadComponent`.
+- Convert the remaining components from `@Input()`/`@ViewChild` decorators to the signal-based
+  `input()` / `viewChild()` functions.

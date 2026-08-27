@@ -151,7 +151,10 @@ contactForm = new FormGroup({
 
 ## Workshop
 
-A step-by-step workshop with exam-style questions is included in [`workshop.md`](./workshop.md). It guides you through rebuilding this application from scratch, with solutions hidden in collapsible detail blocks.
+A step-by-step workshop with exam-style questions is included in [`workshop.md`](./workshop.md). It is self-contained: **Part 0** covers the full environment setup (Node, Angular CLI, project creation, xAI API key, static assets, troubleshooting), so participants need nothing but that one file. It then guides you through rebuilding this application from scratch, with solutions hidden in collapsible detail blocks.
+
+**Part 0 — Environment Setup**
+0. Prerequisites, project creation, API key, assets
 
 **Part 1 — Navbar, Home & Contact Form**
 1. Bootstrap the app
